@@ -1,0 +1,21 @@
+.container {
+    display: grid;
+    grid-template-columns: 60px 4fr 1fr 1fr 1fr;
+    > * {
+        align-self: center;
+    }
+    p {
+        font-weight: bold;
+        margin-left: 20px;
+        cursor: pointer;
+        width: 190px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    img {
+        border-radius: 50%;
+        width: 100%;
+    }
+}

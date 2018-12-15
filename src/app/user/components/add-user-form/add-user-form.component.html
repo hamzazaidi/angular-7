@@ -1,0 +1,27 @@
+<form *ngIf="userForm" [formGroup]="userForm">
+  <mat-form-field class="full-width" appearance="outline">
+    <mat-label>Enter First Name</mat-label>
+    <input matInput placeholder="First Name" formControlName="first_name">
+    <mat-error *ngIf="userForm.controls.first_name.errors?.required">
+      First name is required
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="full-width" appearance="outline">
+    <mat-label>Enter Last Name</mat-label>
+    <input matInput placeholder="Last Name" formControlName="last_name">
+    <mat-error *ngIf="userForm.controls.last_name.errors?.required">
+      Last name is required
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Enter Avatar Url</mat-label>
+      <input matInput placeholder="Avatar Url" formControlName="avatar">
+      <mat-error *ngIf="userForm.controls.avatar.errors?.required">
+        Avatar Url is required
+      </mat-error>
+  </mat-form-field>
+  <div class="actions">
+    <button type="button" mat-raised-button (click)="onCancel()">Cancel</button>
+    <button type="button" (click)="onSubmit()" mat-raised-button color="primary" [disabled]="userForm.invalid">{{ userForm.controls.id.value ? 'Update' : 'Save' }}</button>
+  </div>
+</form>

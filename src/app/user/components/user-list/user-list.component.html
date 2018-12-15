@@ -1,0 +1,11 @@
+<ul>
+    <li *ngFor="let user of users" [appLoader]="isProcessing">
+        <app-user-list-item
+            [user]="user"
+            (select)="selectUser($event)"
+            (delete)="deleteUser($event)"
+            (edit)="editUser($event)"
+            >
+        </app-user-list-item>
+    </li>
+</ul>

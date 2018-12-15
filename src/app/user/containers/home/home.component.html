@@ -1,0 +1,25 @@
+<div class="container">
+    <h1>Users</h1>
+    <div class="panel-container">
+        <div>
+            <div [appLoader]="isLoading">
+                <app-user-list
+                    [users]="usersResponse"
+                    (select)="onUserSelect($event)"
+                    (delete)="onDeleteUser($event)"
+                    (edit)="onEditUser($event)">
+                </app-user-list>
+            </div>
+        </div>
+        <div>
+            <div [appLoader]="isAdding">
+                <app-add-user
+                    (addUser)="onAddUser($event)">
+                </app-add-user>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

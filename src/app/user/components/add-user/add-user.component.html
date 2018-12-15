@@ -1,0 +1,14 @@
+<div class="container">
+  <mat-card>
+    <mat-card-title>
+        Add User
+    </mat-card-title>
+    <mat-card-content>
+      <app-add-user-form
+        [userForm]="userForm"
+        (submittedForm)="onSubmit()"
+        (cancelForm)="onReset()">
+      </app-add-user-form>
+    </mat-card-content>
+  </mat-card>
+</div>

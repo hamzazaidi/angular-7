@@ -1,0 +1,24 @@
+<mat-card [appLoader]="user.isProcessing">
+    <div class="container">
+        <img [src]="userForm.controls.avatar.value" alt="">
+        <p matTooltip="{{ userForm.controls.first_name.value }} {{ userForm.controls.last_name.value }}">
+            {{ userForm.controls.first_name.value }} {{ userForm.controls.last_name.value }}
+        </p>
+        <button mat-icon-button (click)="selectUser(user)" *ngIf="!isEditing">
+            <mat-icon aria-label="Send">send</mat-icon>
+        </button>
+        <button mat-icon-button (click)="deleteUser(user)" *ngIf="!isEditing">
+            <mat-icon aria-label="Delete">delete</mat-icon>
+        </button>
+        <button mat-icon-button (click)="onEdit()" *ngIf="!isEditing">
+            <mat-icon aria-label="Edit">edit</mat-icon>
+        </button>
+    </div>
+    <div *ngIf="isEditing">
+        <app-add-user-form
+            [userForm]="userForm"
+            (submittedForm)="onSubmit()"
+            (cancelForm)="onCancel()">
+        </app-add-user-form>
+    </div>
+</mat-card>
