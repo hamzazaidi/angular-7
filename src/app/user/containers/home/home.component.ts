@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DataService } from '../../services/data/data.service';
-import { MatSnackBar } from '@angular/material';
+import { Store, select } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { IUser } from '../../models/user';
-import { IListResponse } from '../../models/listResponse';
 import { AddUserComponent } from '../../components/add-user/add-user.component';
+import { Observable } from 'rxjs';
+import * as fromRootStore from '../../../store';
+import * as fromUsersStore from '../../../store/users/users.reducer';
+import * as fromUsersAction from '../../../store/users/users.actions';
 
 @Component({
   selector: 'app-home',
@@ -13,17 +15,20 @@ import { AddUserComponent } from '../../components/add-user/add-user.component';
 })
 export class HomeComponent implements OnInit {
   @ViewChild(AddUserComponent) addUserComponent: AddUserComponent;
-  usersResponse: IUser [];
-  isLoading = false;
-  isAdding = false;
+  usersResponse$: Observable<IUser []>;
+  isLoading$: Observable<boolean>;
+  isAdding$: Observable<boolean>;
   constructor(
-    private dataSvc: DataService,
     private router: Router,
-    public snackBar: MatSnackBar
-  ) { }
+    private store: Store<fromUsersStore.UsersState>
+  ) {
+    this.usersResponse$ = this.store.pipe(select(fromRootStore.selectAllUsers));
+    this.isLoading$ = this.store.pipe(select(fromRootStore.selectUsersIsLoading));
+    this.isAdding$ = this.store.pipe(select(fromRootStore.selectUserIsAdding));
+  }
 
   ngOnInit() {
-    this._processRequest();
+    this.store.dispatch(new fromUsersAction.LoadUsers());
   }
 
   onUserSelect(user: IUser) {
@@ -33,51 +38,15 @@ export class HomeComponent implements OnInit {
   }
 
   onAddUser(user: IUser) {
-    this.isAdding = true;
-    this.dataSvc.addUser(user).subscribe(
-      (response: IUser) => this.usersResponse = [ ...this.usersResponse, response ],
-      (error) => console.log(error),
-      () =>  {
-        this.isAdding = false;
-        this.addUserComponent.onReset();
-        this.snackBar.open(`User added`);
-      }
-    );
+    this.store.dispatch(new fromUsersAction.AddUser(user));
   }
 
   onDeleteUser(user: IUser) {
-    user.isProcessing = true;
-    this.dataSvc.deleteUser(user.id).subscribe(
-      (response: boolean) => this.usersResponse = this.usersResponse.filter(u => u.id !== user.id),
-      (error) => console.log(error),
-      () => {
-        user.isProcessing = false;
-        this.snackBar.open(`User Deleted`);
-      }
-    );
+    this.store.dispatch(new fromUsersAction.DeleteUser(user));
   }
 
   onEditUser(user: IUser) {
-    user.isProcessing = true;
-    this.dataSvc.editUser(user).subscribe(
-      (response: IUser) => {
-        this.usersResponse = this.usersResponse.map((u: IUser) => u.id === response.id ? response : u);
-      },
-      (error) => console.log(error),
-      () => {
-        user.isProcessing = true;
-        this.snackBar.open(`User Edited`);
-      }
-    );
-  }
-
-  _processRequest(pageNumber: number = 1): void {
-    this.isLoading = true;
-    this.dataSvc.getUsers(pageNumber).subscribe(
-      (response: IUser[]) => this.usersResponse = response,
-      (error) => console.log(error),
-      () => this.isLoading = false
-    );
+    this.store.dispatch(new fromUsersAction.UpdateUser(user));
   }
 
 }
