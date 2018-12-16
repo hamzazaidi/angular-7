@@ -9,9 +9,9 @@ import {
   StoreRouterConnectingModule,
   RouterStateSerializer,
 } from '@ngrx/router-store';
-import { metaReducers } from './store';
-import { reducers, CustomSerializer } from './store/router/router.reducer';
-import { RouterEffects } from './store/router/router.effects';
+import { metaReducers } from './core/store';
+import { reducers, CustomSerializer } from './core/store/router/router.reducer';
+import { RouterEffects } from './core/store/router/router.effects';
 import { AppComponent } from './core/containers/main/app.component';
 import { NavComponent } from './core/components/nav/nav.component';
 import { LoadingComponent } from './core/components/loading/loading.component';
