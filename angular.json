@@ -135,5 +135,8 @@
       }
     }
   },
-  "defaultProject": "ng7"
+  "defaultProject": "ng7",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

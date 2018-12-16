@@ -5,10 +5,18 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './material/material.module';
-
+import {
+  StoreRouterConnectingModule,
+  RouterStateSerializer,
+} from '@ngrx/router-store';
+import { metaReducers } from './store';
+import { reducers, CustomSerializer } from './store/router/router.reducer';
+import { RouterEffects } from './store/router/router.effects';
 import { AppComponent } from './core/containers/main/app.component';
 import { NavComponent } from './core/components/nav/nav.component';
 import { LoadingComponent } from './core/components/loading/loading.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 
 
@@ -24,9 +32,14 @@ import { LoadingComponent } from './core/components/loading/loading.component';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    MaterialModule
+    MaterialModule,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    EffectsModule.forRoot([
+      RouterEffects
+    ]),
+    StoreRouterConnectingModule
   ],
-  providers: [],
+  providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }],
   entryComponents: [ LoadingComponent ],
   bootstrap: [AppComponent]
 })

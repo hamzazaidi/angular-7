@@ -51,10 +51,10 @@ export class DataService {
     );
   }
 
-  deleteUser(id: number): Observable<boolean> {
+  deleteUser(id: number): Observable<number> {
     return this.http.delete<boolean>(`https://reqres.in/api/users/${id}`).pipe(
       tap(() => console.log(`Deleting User id=${id}`)),
-      map((response: any) => response),
+      map((response: any) => id),
       delay(this.delayDuration),
       catchError(this.handleError)
     );

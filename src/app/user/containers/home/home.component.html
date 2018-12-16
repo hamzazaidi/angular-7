@@ -2,9 +2,9 @@
     <h1>Users</h1>
     <div class="panel-container">
         <div>
-            <div [appLoader]="isLoading">
+            <div [appLoader]="isLoading$ | async">
                 <app-user-list
-                    [users]="usersResponse"
+                    [users]="usersResponse$ | async"
                     (select)="onUserSelect($event)"
                     (delete)="onDeleteUser($event)"
                     (edit)="onEditUser($event)">
@@ -12,7 +12,7 @@
             </div>
         </div>
         <div>
-            <div [appLoader]="isAdding">
+            <div [appLoader]="isAdding$ | async">
                 <app-add-user
                     (addUser)="onAddUser($event)">
                 </app-add-user>
